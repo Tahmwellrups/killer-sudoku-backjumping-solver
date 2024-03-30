@@ -1,8 +1,6 @@
 import numpy as np
 import pygame
 import sys
-import math
-import random
 from button import Button
 
 cages = []
