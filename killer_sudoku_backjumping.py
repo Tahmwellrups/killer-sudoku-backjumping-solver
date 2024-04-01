@@ -1,3 +1,4 @@
+# Project by: Tupas, Ramwell P.
 import numpy as np
 import pygame
 import sys
