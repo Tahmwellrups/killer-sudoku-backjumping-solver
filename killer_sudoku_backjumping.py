@@ -40,13 +40,13 @@ pygame.display.set_caption("KILLER SUDOKU AI")
 # Backjumping algorithm functions
 def solve_backjumping(board, cages):
     # If the algorithm is in dead end, it will return to the first square of the board, thus backjumping
-    return solve_backjumping_helper(board, cages, 0, 0) 
+    if solve_backjumping_helper(board, cages, 0, 0):
+        return 1, board  # Return the solved board if a solution is found
+    else:
+        return 2, board
 
 def solve_backjumping_helper(board, cages, row, col):
     if is_board_full(board):  # Check if the board is completely filled
-        print(board)
-        cages.clear()
-        solution_found(board)
         return True
 
     empty_cell = find_empty_cell(board)
@@ -97,10 +97,17 @@ def is_unique_in_cage(board, cages, row, col, num):
                 return False
     return True
 
-def solution_found(final_board):
-    game_bg = pygame.image.load("resources/GAME BG.png")
-    screen.blit(game_bg, (0,0))
+def solution_found(final_board, result):
+
     draw_final_board(final_board)
+
+    font = pygame.font.SysFont("Arial Narrow", 40)
+    if result == 1:
+        result_text = font.render("SOLUTION FOUND", True, YELLOW)
+        screen.blit(result_text, ((screen_width//2)-126,SQUARESIZE-28))
+    else:
+        result_text = font.render("NO SOLUTION FOUND", True, YELLOW)
+        screen.blit(result_text, ((screen_width//2)-148,SQUARESIZE-28))
 
     while True:
         OVER_MOUSE_POS = pygame.mouse.get_pos()
@@ -121,6 +128,8 @@ def solution_found(final_board):
         pygame.display.flip()		
 
 def draw_final_board(final_board):
+    game_bg = pygame.image.load("resources/GAME BG.png")
+    screen.blit(game_bg, (0,0))
     font = pygame.font.SysFont("Arial Narrow", 25) 
     width_center = (screen_width/2) - (board_width/2)
     # Board
@@ -141,7 +150,6 @@ def draw_final_board(final_board):
     for j in range(0, board_height, SQUARESIZE): # horizontal
         if j % cell != 0:
             pygame.draw.line(screen, RED, (width_center, SQUARESIZE + j), (width_center + board_width, SQUARESIZE + j), 1)
-    
     for r in range(ROW_COUNT):
         for c in range(COLUMN_COUNT):
             value = final_board[r][c]
@@ -342,13 +350,16 @@ def killer_sudoku():
 
                 if is_board_filled(board):
                     if SOLVE_BUTTON.checkForInput(GAME_MOUSE_POS):
-                        board = create_board() # Creating a new board
-                        if solve_backjumping(board, cages):
-                            print("Solution Found")
+                        board = create_board()  # Creating a new board
+                        checker, solved_board = solve_backjumping(board, cages)
+                        if checker == 1:
+                            print(solved_board)
                             cages.clear()
+                            solution_found(solved_board, 1)
                         else:
-                            print("No Solution Found")
+                            print(solved_board)
                             cages.clear()
+                            solution_found(solved_board, 2)
                             
 
                                     
