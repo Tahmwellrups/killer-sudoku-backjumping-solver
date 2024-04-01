@@ -34,7 +34,7 @@ button_height = 30
 
 pygame.init()
 
-background_image = pygame.image.load("KILLER SUDOKU 2.png")
+background_image = pygame.image.load("resources/MENU.png")
 pygame.display.set_caption("KILLER SUDOKU AI")
 
 # Backjumping algorithm functions
@@ -98,7 +98,7 @@ def is_unique_in_cage(board, cages, row, col, num):
     return True
 
 def solution_found(final_board):
-    game_bg = pygame.image.load("KILLER SUDOKU BG.png")
+    game_bg = pygame.image.load("resources/GAME BG.png")
     screen.blit(game_bg, (0,0))
     draw_final_board(final_board)
 
@@ -283,7 +283,7 @@ def draw_board(board):
     pygame.display.update()
 
 def killer_sudoku():
-    game_bg = pygame.image.load("KILLER SUDOKU BG.png")
+    game_bg = pygame.image.load("resources/GAME BG.png")
     screen.blit(game_bg, (0,0))
 
     board = create_board()
@@ -366,7 +366,7 @@ def get_font(size, type):
         return pygame.font.SysFont("Arial Narrow", size)
 
 def controls():
-    controls_bg = pygame.image.load("CONTROLS.png")
+    controls_bg = pygame.image.load("resources/CONTROLS.png")
     screen.blit(controls_bg, (0, 0))
 
     while True:
